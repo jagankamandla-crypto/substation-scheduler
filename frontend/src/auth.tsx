@@ -3,10 +3,18 @@ import { api } from "./api";
 import { loadSession, saveSession } from "./session";
 import type { Session, User } from "./types";
 
+type RegisterInput = {
+  full_name: string;
+  email: string;
+  password: string;
+  role: User["role"];
+};
+
 type AuthValue = {
   user: User | null;
   ready: boolean;
   login: (email: string, password: string) => Promise<User>;
+  register: (input: RegisterInput) => Promise<User>;
   logout: () => void;
 };
 
@@ -24,6 +32,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           method: "POST",
           body: { email, password },
         });
+        saveSession(next);
+        setSession(next);
+        return next.user;
+      },
+      async register(input: RegisterInput) {
+        const next = await api<Session>("/api/auth/register", { method: "POST", body: input });
         saveSession(next);
         setSession(next);
         return next.user;

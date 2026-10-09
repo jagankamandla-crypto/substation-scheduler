@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { errorMessage } from "../api";
 import { useAuth } from "../auth";
-import { ThemeToggle } from "../theme";
+import { AuthFrame } from "../components/AuthFrame";
 
 const DEMOS = [
   ["rao.ops@grid.example", "Mr. Rao", "Operations Head"],
@@ -36,16 +36,10 @@ export function SignInPage() {
   }
 
   return (
-    <div className="signin">
-      <section className="signin-hero">
-        <p className="kicker light">Substation maintenance</p>
-        <h1>Every asset on its date.</h1>
-        <p>Plan preventive work, record what the technician found, and see overdue risk before it becomes an outage.</p>
-      </section>
-      <section className="signin-panel">
-        <div className="signin-theme">
-          <ThemeToggle />
-        </div>
+    <AuthFrame
+      title="Every asset on its date."
+      lede="Plan preventive work, record what the technician found, and see overdue risk before it becomes an outage."
+    >
         <form
           className="card signin-card"
           onSubmit={(event) => {
@@ -71,6 +65,10 @@ export function SignInPage() {
           <button className="btn primary" type="submit" disabled={busy}>
             Sign in
           </button>
+          <div className="auth-links">
+            <Link to="/forgot-password">Forgot password?</Link>
+            <Link to="/signup">Create an account</Link>
+          </div>
           <p className="muted">Demo password Demo#2026. Fictional people and substations.</p>
           <div className="demo-list">
             {DEMOS.map(([address, name, role]) => (
@@ -81,7 +79,6 @@ export function SignInPage() {
             ))}
           </div>
         </form>
-      </section>
-    </div>
+    </AuthFrame>
   );
 }

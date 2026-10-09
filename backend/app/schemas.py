@@ -8,6 +8,18 @@ class LoginIn(BaseModel):
     password: str
 
 
+class RegisterIn(BaseModel):
+    full_name: str
+    email: str
+    password: str
+    role: str
+
+
+class ResetPasswordIn(BaseModel):
+    email: str
+    password: str
+
+
 class AssetIn(BaseModel):
     model_config = ConfigDict(extra="ignore")
 

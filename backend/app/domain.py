@@ -45,6 +45,13 @@ COMPLETION_BEFORE_CREATED = "Completion date cannot be before the task was creat
 COMPLETION_REQUIRED = "Completion date is required."
 DECOMMISSIONED_EDIT = "Decommissioned assets cannot be edited."
 ALREADY_DECOMMISSIONED = "This asset is already decommissioned."
+EMAIL_TAKEN = "An account already uses that email."
+EMAIL_UNKNOWN = "No account uses that email."
+EMAIL_INVALID = "Enter a valid email address."
+PERSON_NAME_REQUIRED = "Enter your name."
+PASSWORD_SHORT = "Password must be at least 8 characters."
+ROLE_REQUIRED = "Choose a role."
+PASSWORD_MIN = 8
 
 ROLE_LABELS = {
     "asset_manager": "Asset Manager",
@@ -94,6 +101,17 @@ CM_OPEN_QUESTION = (
     "A condition rating of 1 or 2 opens a corrective task at High priority, due "
     "7 days later. That 7-day due date is still an open question with the business analyst."
 )
+
+
+def clean_email(value: str) -> str:
+    return value.strip().lower()
+
+
+def email_ok(value: str) -> bool:
+    if " " in value or value.count("@") != 1:
+        return False
+    local, domain = value.split("@", 1)
+    return bool(local) and "." in domain and not domain.startswith(".") and not domain.endswith(".")
 
 
 class RuleError(Exception):
