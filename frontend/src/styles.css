@@ -126,7 +126,9 @@ p { margin: 0; }
 .signin-hero > *:nth-child(3) { animation-delay: 0.16s; }
 .signin-hero h1 { font-size: 4.2rem; max-width: 11ch; }
 .signin-hero p { max-width: 36ch; color: var(--inverse-muted); font-size: 1.15rem; }
-.signin-panel { position: relative; background: var(--canvas); display: grid; place-items: center; padding: 32px; }
+.signin-panel { position: relative; background: var(--canvas); display: grid; place-items: center; padding: 32px; overflow: auto; }
+.auth-links { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.auth-links a, .muted a { font-weight: 600; }
 .signin-theme { position: absolute; top: 20px; right: 20px; }
 .signin-card { width: min(440px, 100%); display: grid; gap: 14px; animation: rise 0.65s 0.1s cubic-bezier(0.22, 1, 0.36, 1) both; }
 .kicker {

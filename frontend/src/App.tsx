@@ -9,7 +9,9 @@ import { AssetsPage } from "./pages/Assets";
 import { DashboardPage } from "./pages/Dashboard";
 import { MyWorkPage } from "./pages/MyWork";
 import { ReportPage } from "./pages/Report";
+import { ForgotPasswordPage } from "./pages/ForgotPassword";
 import { SignInPage } from "./pages/SignIn";
+import { SignUpPage } from "./pages/SignUp";
 import { TaskDetailPage } from "./pages/TaskDetail";
 import { TasksPage } from "./pages/Tasks";
 import type { Role } from "./types";
@@ -32,6 +34,8 @@ export function App() {
   return (
     <Routes>
       <Route path="/login" element={<SignInPage />} />
+      <Route path="/signup" element={<SignUpPage />} />
+      <Route path="/forgot-password" element={<ForgotPasswordPage />} />
       <Route
         element={
           user ? (
