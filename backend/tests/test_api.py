@@ -50,6 +50,50 @@ def test_login_sends_each_role_home(client):
     assert rejected.status_code == 401
 
 
+def test_a_new_person_can_join_and_reset_their_password(client):
+    created = client.post(
+        "/api/auth/register",
+        json={
+            "full_name": "Anita Rao",
+            "email": "Anita.Tech@grid.example",
+            "password": "Visit#2026",
+            "role": "technician",
+        },
+    )
+    assert created.status_code == 200, created.text
+    assert created.json()["user"]["email"] == "anita.tech@grid.example"
+    assert created.json()["user"]["home"] == "/my-work"
+
+    duplicate = client.post(
+        "/api/auth/register",
+        json={
+            "full_name": "Anita Rao",
+            "email": "anita.tech@grid.example",
+            "password": "Visit#2026",
+            "role": "technician",
+        },
+    )
+    assert duplicate.status_code == 422
+    assert message(duplicate) == "An account already uses that email."
+
+    missing = client.post(
+        "/api/auth/reset-password",
+        json={"email": "nobody@grid.example", "password": "Visit#2026"},
+    )
+    assert missing.status_code == 422
+    assert message(missing) == "No account uses that email."
+
+    reset = client.post(
+        "/api/auth/reset-password",
+        json={"email": "anita.tech@grid.example", "password": "Fresh#2026"},
+    )
+    assert reset.status_code == 200
+    old = client.post("/api/auth/login", json={"email": "anita.tech@grid.example", "password": "Visit#2026"})
+    assert old.status_code == 401
+    fresh = client.post("/api/auth/login", json={"email": "anita.tech@grid.example", "password": "Fresh#2026"})
+    assert fresh.status_code == 200
+
+
 def test_asset_rules_over_http(client):
     _, manager = login(client, "suresh.asset@grid.example")
     substations = client.get("/api/substations", headers=manager).json()
